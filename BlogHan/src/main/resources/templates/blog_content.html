@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Content</title>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="../static/css/blog_content.css">
+</head>
+
+<body>
+    <header>
+        <div>
+            <a href="blog_list.html">Back</a>
+            <a href="#">Other Button</a>
+        </div>
+    </header>
+    <div class="blog-container">
+        <img class="blog-image" src="/1_1.1.1.jpg" alt="Blog Image">
+        <div class="blog-details">
+            <div class="category">
+                <p case="1">ゲーム</p>
+                <p case="2">映画</p>
+                <p case="3">グルメ</p>
+                <p case="4">その他</p>
+            </div>
+            <p>投稿者</p>
+            <div class="register-date">2023/11/15</div>
+            <h1>Blog Title</h1>
+            <p class="blog-content">
+                blog detail
+            </p>
+        </div>
+    </div>
+    <div class="comment-section">
+        <h2>Comments</h2>
+        <ul>
+            <li>
+                <div class="comment">
+                    <div class="comment-author">username</div>
+                    <div class="comment-text">
+                        comment
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+
+        <div class="comment-form">
+            <form action="" method="post">
+                <label for="comment">Add your comment:</label>
+                <textarea id="comment" rows="4" placeholder="Type your comment here..." required></textarea>
+                <button type="submit">Submit Comment</button>
+            </form>
+        </div>
+    </div>
+    <footer>
+        &copy; 2023 My Blog. By HanTakuhyo.
+    </footer>
+</body>
+
+</html>

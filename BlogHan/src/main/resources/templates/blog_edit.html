@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/blog_edit.css">
+</head>
+
+<body>
+    <header>
+        <h1>Edit Blog</h1>
+    </header>
+
+    <div class="edit-container">
+        <form class="edit-form" action="" method="post">
+            <label for="blogTitle">Blog Title:</label>
+            <input type="text" id="blogTitle" placeholder="Enter your blog title" required>
+
+            <div>
+                <label for="category">Category:</label>
+                <select name="categoryId" id="category">
+                    <option value="" selected>選択</option>
+                    <option value="1">ゲーム</option>
+                    <option value="2">映画</option>
+                    <option value="3">グルメ</option>
+                    <option value="4">その他</option>
+                </select>
+            </div>
+
+            <div class="image-preview">
+                <label for="img"></label>
+                <img src="/1_1.1.1.jpg" alt="" id="imagePreview" class="img">
+            </div>
+            <input type="file" class="image-upload" name="blogImage">
+
+
+            <label for="blogDetail">Blog Content:</label>
+            <textarea name="blogDetail" id="blogDetail" placeholder="Enter your blog content" required></textarea>
+
+            <button class="save-button" type="submit">Save Changes</button>
+            <a href="blog-list.html" class="return-button">Back</a>
+        </form>
+    </div>
+    <footer>
+        &copy; 2023 My Blog. By HanTakuhyo.
+    </footer>
+</body>
+
+</html>
