@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>register success</title>
+    <title>login success</title>
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/success.css}">
 </head>
@@ -15,13 +15,13 @@
     </header>
     <div class="success-container">
         <div class="success-icon">&#10004;</div>
-        <div class="success-message">Register Successful!</div>
-        <a th:href="@{/login}" class="back-to-login">Back to Login</a>
+        <div class="success-message">Comment Successful!</div>
+        <a th:href="@{/blog/content/{blogId}(blogId=${blog.blogId})}" class="back-to-login">Back to Blog</a>
     </div>
     <footer>
         &copy; 2023 My Blog. By HanTakuhyo.
     </footer>
-    <script th:src="@{/js/register_success.js}"></script>
+    <script th:src="@{/js/comment_success.js}"></script>
 </body>
 
 </html>

@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Blog</title>
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/blog_edit.css">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/blog_edit.css}">
 </head>
 
 <body>
@@ -15,9 +15,9 @@
     </header>
 
     <div class="edit-container">
-        <form class="edit-form" action="" method="post">
+        <form class="edit-form" th:action="@{/blog/create/process}" method="post" enctype="multipart/form-data">
             <label for="blogTitle">Blog Title:</label>
-            <input type="text" id="blogTitle" placeholder="Enter your blog title" required>
+            <input type="text" id="blogTitle" name="blogTitle" placeholder="Enter your blog title" required>
 
             <div>
                 <label for="category">Category:</label>
@@ -31,8 +31,8 @@
             </div>
 
             <div class="image-preview">
-                <label for="img"></label>
-                <img src="/1_1.1.1.jpg" alt="" id="imagePreview" class="img">
+                <label for="img" class="place" id="placeLabel">+</label>
+                <img src="" alt="" id="imagePreview" class="img">
             </div>
             <input type="file" class="image-upload" name="blogImage">
 
@@ -41,12 +41,13 @@
             <textarea name="blogDetail" id="blogDetail" placeholder="Enter your blog content" required></textarea>
 
             <button class="save-button" type="submit">Create Blog</button>
-            <a href="blog-list.html" class="return-button">Back</a>
-        </form>
+            <a th:href="@{/blog/myPage}" class="return-button">Back</a>
+        </form>  
     </div>
     <footer>
         &copy; 2023 My Blog. By HanTakuhyo.
     </footer>
+    <script th:src="@{/js/blog_edit.js}"></script>
 </body>
 
 </html>

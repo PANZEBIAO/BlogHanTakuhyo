@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 
 <body>
@@ -14,35 +14,44 @@
         <h1>My Blog</h1>
     </header>
     <div class="login-container">
-        <form action="" method="post">
+        <form th:action="@{/register/process}" method="post">
             <div class="login-header">
                 <h2>Register</h2>
             </div>
             <div class="login-form">
                 <div class="form-group">
                     <label for="username">Username:</label>
-                    <input type="text" id="username" placeholder="Enter your Username">
+                    <input type="text" id="userName" name="userName" placeholder="Enter your Username">
+                    <span class="username"></span>
                 </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="text" id="Email" placeholder="Enter your Email">
+                    <input type="text" id="Email" name="email" placeholder="Enter your Email">
+                    <span class="email"></span>
                 </div>
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="password" id="password" placeholder="Enter your password">
+                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                    <span class="password"></span>
+                </div>
+                <div class="form-group">
+                    <label for="passwordtoo">PasswordMatch:</label>
+                    <input type="password" id="passwordtoo" placeholder="Enter your password one more">
+                    <span class="passwordtoo"></span>
                 </div>
                 <div class="form-group btn">
-                    <button type="submit">Register</button>
+                    <button class="button">Register</button>
                 </div>
             </div>
         </form>
         <div class="register_link">
-            <p><a href="">ログイン画面に戻る</a></p>
+            <p><a th:href="@{/login}">ログイン画面に戻る</a></p>
         </div>
     </div>
     <footer>
         &copy; 2023 My Blog. By HanTakuhyo.
     </footer>
+    <script th:src="@{/js/register.js}"></script>
 </body>
 
 </html>

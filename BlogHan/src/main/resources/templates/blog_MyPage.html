@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Page</title>
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/blog_MyPage.css">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/blog_MyPage.css}">
 </head>
 
 <body>
@@ -16,18 +16,18 @@
 
     <div class="mypage-container">
         <ul>
-            <li>
+            <li th:each="blog : ${blogList}">
                 <div class="post">
                     <div class="post-content">
-                        <h2>blog Title</h2>
-                        <p>
-                            blog detail
-                        </p>
+                        <h2 th:text="${blog.blogTitle}"></h2>
+                        <p th:text="${blog.blogDetail}"></p>
                     </div>
                     <div class="post-buttons">
-                        <button class="edit-button">Edit</button>
-                        <form action="" method="post">
-                            <input type="hidden" name="blogId">
+						<a th:href="@{/blog/edit/{blogId}(blogId=${blog.blogId})}">
+							<button class="edit-button">Edit</button>
+						</a>
+                        <form th:action="@{/blog/delete}" method="post">
+                            <input type="hidden" name="blogId"  th:value="${blog.blogId}">
                             <button class="delete-button">Delete</button>
                         </form>
                     </div>
@@ -37,33 +37,34 @@
         </ul>
 
 
-        <!-- Add more posts as needed -->
-
-        <button class="create-post-button">Create New Blog</button>
-
+		<a th:href="@{/blog/create}">		
+        	<button class="create-post-button">Create New Blog</button>
+		</a>
         <div class="pagination">
             <div class="page-selector">
                 Show:
-                <select>
-                    <option>5</option>
-                    <option>10</option>
-                    <option>20</option>
+                <select id="pageSizeSelector">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
                 </select>
                 blogs per page
             </div>
-            <div class="total-blogs">
-                Total Blogs: 30
-            </div>
+            <div class="total-blogs"  th:text="'Total Blogs: ' + ${blogCount}"></div>
             <div>
                 <button>Previous</button>
                 <button>1</button>
-                <button>2</button>
-                <!-- Add more page buttons as needed -->
                 <button>Next</button>
             </div>
         </div>
     </div>
-    </div>
+	<div class="pagination">
+	    <ul>
+	        <li th:each="pageNumber : ${pageNumbers}" th:class="${pageNumber == blogList.number + 1} ? 'active' : ''">
+	            <a th:href="@{/blog/list(page=${pageNumber}, pageSize=${pageSize})}" th:text="${pageNumber}"></a>
+	        </li>
+	    </ul>
+	</div>
     <footer>
         &copy; 2023 My Blog. By HanTakuhyo.
     </footer>

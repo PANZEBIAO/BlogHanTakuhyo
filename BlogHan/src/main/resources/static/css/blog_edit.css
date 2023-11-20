@@ -47,8 +47,17 @@ textarea,
 }
 
 #imagePreview {
-    height: 100%;
+    height: 150px;
     max-width: 100%;
+}
+
+#placeLabel {
+    height: 100px;
+    max-width: 100%;
+}
+
+.place {
+    display: none;
 }
 
 .img {
@@ -85,7 +94,5 @@ footer {
     color: #fff;
     padding: 10px;
     text-align: center;
-    position: fixed;
-    bottom: 0;
     width: 100%;
 }

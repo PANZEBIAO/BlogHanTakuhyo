@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login success</title>
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/success.css">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/success.css}">
 </head>
 
 <body>
@@ -16,11 +16,12 @@
     <div class="success-container">
         <div class="success-icon">&#10004;</div>
         <div class="success-message">Login Successful!</div>
-        <a href="blog_list.html" class="back-to-login">Back to BlogList</a>
+        <a th:href="@{/blog/list}" class="back-to-login">Back to BlogList</a>
     </div>
     <footer>
         &copy; 2023 My Blog. By HanTakuhyo.
     </footer>
+    <script th:src="@{/js/login_success.js}"></script>
 </body>
 
 </html>

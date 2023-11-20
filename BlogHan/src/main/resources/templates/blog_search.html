@@ -20,14 +20,14 @@
         <a th:href="@{/logout}">LogOut</a>
         <form th:action="@{/blog/search}" method="get">
 	        <div class="search-container">
-	            <input type="text" id="searchInput" name="keyword" placeholder="Search...">
+	            <input type="text" id="searchInput" name="keyword" th:value="${keyword}" placeholder="Search...">
 	            <button>Search</button>
 	        </div>
         </form>
     </nav>
-    <div class="blog_list">
+    <div class="blog_list" th:if="${not #lists.isEmpty(searchResults)}">
         <ul>
-            <li th:each="blog : ${blogList}">
+            <li th:each="blog : ${searchResults}">
                 <div class="blog-post">
                     <a th:href="@{/blog/content/{blogId}(blogId=${blog.blogId})}">
                         <h2 th:text="${blog.blogTitle}"></h2>
@@ -45,7 +45,12 @@
             </li>
         </ul>
     </div>
-    <p class="totalBlogsP">Total Blogs: <span class="totalBlogs" th:text="${blogCount}"></span></p>
+    
+    <div th:if="${#lists.isEmpty(searchResults)}">
+        <p>No blogs found for [[${keyword}]]</p>
+    </div>
+    
+    <p class="totalBlogsP">Total Blogs: <span class="totalBlogs" th:text="${searchCount}"></span></p>
 	<div class="pagination">
 	    <ul>
 	        <li th:each="pageNumber : ${pageNumbers}" th:class="${pageNumber == blogList.number + 1} ? 'active' : ''">

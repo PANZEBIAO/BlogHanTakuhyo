@@ -5,32 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Content</title>
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="../static/css/blog_content.css">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/blog_content.css}">
 </head>
 
 <body>
     <header>
         <div>
-            <a href="blog_list.html">Back</a>
-            <a href="#">Other Button</a>
+            <a th:href="@{/blog/list}">Back</a>
+            <a th:href="@{/blog/myPage}">MyPage</a>
         </div>
     </header>
     <div class="blog-container">
-        <img class="blog-image" src="/1_1.1.1.jpg" alt="Blog Image">
+        <img class="blog-image" th:src="@{/blog_img/{imageName}(imageName=${blog.blogImage})}" alt="Blog Image">
         <div class="blog-details">
-            <div class="category">
-                <p case="1">ゲーム</p>
-                <p case="2">映画</p>
-                <p case="3">グルメ</p>
-                <p case="4">その他</p>
+            <div class="category" th:switch="${blog.categoryId}">
+                <p th:case="1">ゲーム</p>
+                <p th:case="2">映画</p>
+                <p th:case="3">グルメ</p>
+                <p th:case="4">その他</p>
             </div>
-            <p>投稿者</p>
-            <div class="register-date">2023/11/15</div>
-            <h1>Blog Title</h1>
-            <p class="blog-content">
-                blog detail
-            </p>
+            <p th:text="'authorName:' + ${authorName}"></p>
+            <div class="register-date" th:text="${#temporals.format(blog.registerDate,'yyyy/MM/dd')}"></div>
+            <h1 th:text="${blog.blogTitle}"></h1>
+            <p class="blog-content" th:text="${blog.blogDetail}"></p>
         </div>
     </div>
     <div class="comment-section">
