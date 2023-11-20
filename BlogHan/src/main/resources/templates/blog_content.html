@@ -34,21 +34,22 @@
     <div class="comment-section">
         <h2>Comments</h2>
         <ul>
-            <li>
+            <li th:each="commentDTO : ${comments}">
                 <div class="comment">
-                    <div class="comment-author">username</div>
-                    <div class="comment-text">
-                        comment
-                    </div>
+                    <div class="comment-author"　 th:text="${commentDTO.userName}"></div>
+                    <div class="comment-author"　 th:text="${commentDTO.comment.registerDate}"></div>
+                    <div class="comment-text" th:text="${commentDTO.comment.comment}"></div>
                 </div>
             </li>
         </ul>
 
 
         <div class="comment-form">
-            <form action="" method="post">
+            <form th:action="@{/blog/comment/process}" method="post">
                 <label for="comment">Add your comment:</label>
-                <textarea id="comment" rows="4" placeholder="Type your comment here..." required></textarea>
+                <textarea id="comment" rows="4" name="comment" placeholder="Type your comment here..." required></textarea>
+                <input type="hidden" id="blogId" name="blogId" required th:value="${blog.blogId}">
+                <input type="hidden" id="userId" name="userId" required th:value="${nowUser.userId}">
                 <button type="submit">Submit Comment</button>
             </form>
         </div>

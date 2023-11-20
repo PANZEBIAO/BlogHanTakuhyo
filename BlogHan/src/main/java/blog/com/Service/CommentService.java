@@ -11,34 +11,29 @@ import blog.com.Model.Entity.CommentEntity;
 
 @Service
 public class CommentService {
-	//commentDaoを使えるようにする
+	// commentDaoを使えるようにする
 	@Autowired
 	private CommentDao commentDao;
-	
-	//blogIdからコメントを検索メソッド
-	public List<CommentEntity> findByBlogId(Long blogId){
+
+	// blogIdからコメントを検索メソッド
+	public List<CommentEntity> findByBlogId(Long blogId) {
 		return commentDao.findByBlogId(blogId);
 	}
-	
-	//comment登録メソッド
-	public boolean saveComment(LocalDate registerDate,String comment,Long blogId,Long userId) {
-		if(commentDao.findByBlogId(blogId) == null ) {
-			return false;
-		}else {
-			commentDao.save(new CommentEntity(registerDate,comment,blogId,userId));
-			return true;
-		}
-    }
-	
+
+	// comment登録メソッド
+	public boolean saveComment(LocalDate registerDate, String comment, Long blogId, Long userId) {
+		commentDao.save(new CommentEntity(registerDate, comment, blogId, userId));
+		return true; // Assuming save is always successful
+	}
+
 	// 削除するメソッド
 	public boolean deleteComment(Long commentId) {
-		if(commentId == null) {
+		if (commentId == null) {
 			return false;
-		}else {
+		} else {
 			commentDao.deleteByCommentId(commentId);
 			return true;
 		}
 	}
-	
-	
+
 }

@@ -23,20 +23,21 @@ public class CommentController {
 
 	// comment登録処理
 	@PostMapping("/blog/comment/process")
-	public String blogComment(@RequestParam LocalDate registerDate, @RequestParam String comment,
+	public String blogComment(@RequestParam String comment,
 			@RequestParam Long blogId, @RequestParam Long userId) {
 		// セッションからログインしている人の情報を取得
 		UserEntity userList = (UserEntity) session.getAttribute("user");
-		
-		
+		// 新規作成時間を登録
+		LocalDate registerDate = LocalDate.now();
+		// UserIdがnullだったら、ログインページに飛ぶ
 		if (userList.getUserId() == null) {
 			return "redirect:/login";
 		} else {
-			//saveCommentを呼び出し、コメントを保存
+			// saveCommentを呼び出し、コメントを保存
 			if (commentService.saveComment(registerDate, comment, blogId, userId)) {
-				return "comment_success.html";
+				return "redirect:/blog/content/" + blogId;
 			}
-				return "redirect:/blog/content/{blogId}";
+			return "redirect:/blog/content/" + blogId;
 		}
 	}
 }

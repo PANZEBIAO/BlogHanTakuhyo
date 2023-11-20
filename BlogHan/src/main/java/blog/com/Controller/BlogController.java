@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import blog.com.Model.Entity.BlogEntity;
+import blog.com.Model.Entity.CommentDTO;
 import blog.com.Model.Entity.CommentEntity;
 import blog.com.Model.Entity.UserEntity;
 import blog.com.Service.BlogService;
@@ -41,11 +43,11 @@ public class BlogController {
 	// UserServiceが使えるように宣言
 	@Autowired
 	private UserService userService;
-	
-	//CommentServiceが使えるように宣言
+
+	// CommentServiceが使えるように宣言
 	@Autowired
 	private CommentService commentService;
-	
+
 	// blog画面の表示
 	@GetMapping("/blog/list")
 	public String getBlogList(@RequestParam(defaultValue = "1") int page,
@@ -73,23 +75,26 @@ public class BlogController {
 			return "blog_list.html";
 		}
 	}
-	
-	//検索機能
+
+	// 検索機能
 	@GetMapping("/blog/search")
-	public String searchBlogs(@RequestParam String keyword,Model model) {
-			//"blogService.searchBlogs" メソッドを呼び出して、指定された検索用語に一致するブログを検索します。
-			List<BlogEntity> searchResults = blogService.searchBlogs(keyword);
-			//検索して何件表示したかを変数searchCountに入れる
-			int searchCount = searchResults.size();
-			model.addAttribute("searchResults",searchResults);
-			model.addAttribute("searchCount",searchCount);
-			model.addAttribute("keyword",keyword);
-			return "blog_search.html";
+	public String searchBlogs(@RequestParam String keyword, Model model) {
+		// "blogService.searchBlogs" メソッドを呼び出して、指定された検索用語に一致するブログを検索します。
+		List<BlogEntity> searchResults = blogService.searchBlogs(keyword);
+		// 検索して何件表示したかを変数searchCountに入れる
+		int searchCount = searchResults.size();
+		model.addAttribute("searchResults", searchResults);
+		model.addAttribute("searchCount", searchCount);
+		model.addAttribute("keyword", keyword);
+		return "blog_search.html";
 	}
-	
+
 	// ブログコンテント画面表示
 	@GetMapping("/blog/content/{blogId}")
 	public String getBlogContentPage(@PathVariable Long blogId, Model model) {
+		// セッションからログインしている人の情報を取得
+		UserEntity nowUser = (UserEntity) session.getAttribute("user");
+		model.addAttribute("nowUser",nowUser);
 		// blogIdで特定のブログ投稿を取得し、blogListに格納
 		BlogEntity blogList = blogService.getEditBlog(blogId);
 
@@ -102,10 +107,18 @@ public class BlogController {
 			// ブログ投稿の作成者を取得します。
 			UserEntity aythor = userService.getUserById(blogList.getUserId());
 			model.addAttribute("authorName", aythor.getUserName());
-			
-			//comment取得
+
+			// comment取得
 			List<CommentEntity> comments = commentService.findByBlogId(blogId);
-			model.addAttribute("comments", comments);
+			// 新規ArrayListを変数commentDTOsに格納
+			List<CommentDTO> commentDTOs = new ArrayList<>();
+			for (CommentEntity comment : comments) {
+				UserEntity user = userService.getUserById(comment.getUserId());
+				CommentDTO commentDTO = new CommentDTO(comment, user.getUserName());
+				commentDTOs.add(commentDTO);
+			}
+
+			model.addAttribute("comments", commentDTOs);
 			return "blog_content.html";
 		}
 	}
@@ -191,12 +204,22 @@ public class BlogController {
 	@PostMapping("/blog/edit/process")
 	public String editBlog(@RequestParam String blogTitle, @RequestParam Long categoryId,
 			@RequestParam MultipartFile newBlogImage, @RequestParam String blogDetail, @RequestParam Long blogId) {
+		// blogIdからブログを検索メソッドを変数blogListに格納
+		BlogEntity blogList = blogService.getEditBlog(blogId);
 
-		// 現在の日時情報を元に、ファイル名を作成
-		// blogImageオブジェクトから元のファイル名を取得し、フォーマットされた日時文字列と連結して、fileName変数に代入
-		String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-").format(new Date())
-				+ newBlogImage.getOriginalFilename();
+		// ファイルパス変数fileNameを宣言
+		String fileName;
 
+		if (newBlogImage == null) {
+			// 画像変更しなかったら、元のリンクを使う
+			fileName = blogList.getBlogImage();
+		} else {
+			// 画像変更あったら、新規作成
+			// 現在の日時情報を元に、ファイル名を作成
+			// blogImageオブジェクトから元のファイル名を取得し、フォーマットされた日時文字列と連結して、fileName変数に代入
+			fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-").format(new Date())
+					+ newBlogImage.getOriginalFilename();
+		}
 		try {
 			// 新しい画像を指定したパスにコピー
 			Path destinationPath = Paths.get("src/main/resources/static/blog_img/" + fileName);
@@ -210,11 +233,9 @@ public class BlogController {
 		if (blogService.editBlog(fileName, blogTitle, blogDetail, categoryId, blogId)) {
 			return "edit_success.html";
 		} else {
-			return "redirect:/blog/edit/{blogId}";
+			return "redirect:/blog/edit/" + blogId;
 		}
 	}
-	
-	
 
 	// 削除処理
 	@PostMapping("/blog/delete")
